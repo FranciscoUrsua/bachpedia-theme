@@ -1,4 +1,13 @@
 <?php
+/**
+ * Bachpedia Theme Functions
+ *
+ * @package Bachpedia
+ * @author Tu Nombre
+ * @license GPL-3.0
+ * @link https://www.gnu.org/licenses/gpl-3.0.html
+ */
+
 function bachpedia_enqueue_assets() {
     // Encolar CSS de Bootstrap
     wp_enqueue_style(

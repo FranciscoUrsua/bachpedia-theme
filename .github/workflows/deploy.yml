@@ -14,7 +14,7 @@ jobs:
 
       - name: Add server to known_hosts
         run: |
-          mkdir -p ~/.ssh
+          mkdir -p ~/.ssh |
           ssh-keyscan -p "${{ secrets.DEPLOY_PORT }}" "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
 
       # (Opcional) Lint rápido de PHP

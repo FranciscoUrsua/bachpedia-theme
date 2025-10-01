@@ -13,12 +13,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Add server to known_hosts
-          with:
-            remote_host: ${{ secrets.DEPLOY_HOST }}
-            remote_port: ${{ secrets.DEPLOY_PORT }}
-          run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -p "${{ secrets.DEPLOY_PORT }}" "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
+        with:
+          remote_host: ${{ secrets.DEPLOY_HOST }}
+          remote_port: ${{ secrets.DEPLOY_PORT }}
+        run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -p "${{ secrets.DEPLOY_PORT }}" "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
 
       # (Opcional) Lint rápido de PHP
       - name: PHP syntax check

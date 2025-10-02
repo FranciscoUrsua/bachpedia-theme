@@ -1,4 +1,4 @@
-Tema Bachpedia
+** Tema Bachpedia **
 Tema de WordPress para la enciclopedia de las obras de Bach, basado en Bootstrap 5.
 Requisitos
 

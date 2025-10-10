@@ -63,7 +63,7 @@ function bachpedia_theme_setup() {
     add_theme_support('custom-logo');
     add_theme_support('html5', ['search-form', 'comment-form', 'comment-list', 'gallery', 'caption']);
     add_theme_support('automatic-feed-links');
-
+    add_theme_support('customize-selective-refresh-widgets');
 
     register_nav_menus([
         'primary' => __('Primary Menu', 'bachpedia'),
@@ -72,6 +72,54 @@ function bachpedia_theme_setup() {
 
 }
 add_action('after_setup_theme', 'bachpedia_theme_setup');
+
+// Registra secciones en Customizer
+function bachpedia_customize_register($wp_customize) {
+    // Sección básica para colores (usa tus vars SCSS como defaults)
+    $wp_customize->add_setting('bachpedia_primary_color', [
+        'default'           => '#B87333',  // Copper de tus vars
+        'sanitize_callback' => 'sanitize_hex_color',
+        'transport'         => 'postMessage',  // Preview en vivo
+    ]);
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'bachpedia_primary_color', [
+        'label'    => __('Color Primario (Copper)', 'bachpedia'),
+        'section'  => 'colors',
+        'settings' => 'bachpedia_primary_color',
+    ]));
+
+    // Opcional: Sección para logo alterno o más opciones
+    $wp_customize->add_section('bachpedia_identity', [
+        'title' => __('Identidad Bachpedia', 'bachpedia'),
+        'priority' => 30,
+    ]);
+    $wp_customize->add_setting('bachpedia_logo_variant', [
+        'default'           => 'wob',  // Blanco sobre negro para navbar dark
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    $wp_customize->add_control('bachpedia_logo_variant', [
+        'label'    => __('Variante de Logo', 'bachpedia'),
+        'section'  => 'bachpedia_identity',
+        'type'     => 'select',
+        'choices'  => [
+            'wob' => __('Blanco sobre Negro (para dark)', 'bachpedia'),
+            'bow' => __('Negro sobre Blanco (para light)', 'bachpedia'),
+        ],
+    ]);
+}
+add_action('customize_register', 'bachpedia_customize_register');
+
+// JS para preview en vivo (opcional, para color changes)
+function bachpedia_customize_preview_js() {
+    wp_enqueue_script(
+        'bachpedia-customize-preview',
+        get_template_directory_uri() . '/assets/js/customize-preview.js',
+        ['customize-preview'],
+        '1.0.0',
+        true
+    );
+}
+add_action('customize_preview_init', 'bachpedia_customize_preview_js');
+
 
 // Walker para menús Bootstrap 5
 class Bootstrap_Walker_Nav_Menu extends Walker_Nav_Menu {

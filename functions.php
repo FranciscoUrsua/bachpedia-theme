@@ -37,13 +37,23 @@ function bachpedia_enqueue_assets() {
     // Encolar JS personalizado
     wp_enqueue_script(
         'bachpedia-custom-js',
-        get_template_directory_uri() . '/assets/js/custom.js',
+        get_template_directory_uri(),
         ['bachpedia-bootstrap-js'],
         '1.0.0',
         true
     );
 }
 add_action('wp_enqueue_scripts', 'bachpedia_enqueue_assets');
+
+// Añade favicon en head
+function bachpedia_add_favicon() {
+    echo '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url(get_template_directory_uri() . '/assets/img/bachpedia-icon.png') . '">';
+    echo '<link rel="icon" type="image/png" sizes="16x16" href="' . esc_url(get_template_directory_uri() . '/assets/img/bachpedia-icon.png') . '">';
+    // Opcional: Apple touch icon para iOS
+    echo '<link rel="apple-touch-icon" sizes="180x180" href="' . esc_url(get_template_directory_uri() . '/assets/img/bachpedia-icon.png') . '">';
+}
+add_action('wp_head', 'bachpedia_add_favicon');
+
 
 // Soporte para características del tema
 function bachpedia_theme_setup() {

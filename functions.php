@@ -12,7 +12,7 @@ function bachpedia_enqueue_assets() {
     // Encolar CSS de Bootstrap
     wp_enqueue_style(
         'bachpedia-bootstrap',
-        get_template_directory_uri() . '/assets/css/bootstrap.min.css',
+        get_template_directory_uri() . '/assets/css/bootstrap-bachpedia.min.css',
         [],
         '5.3.3'
     );
@@ -47,9 +47,13 @@ add_action('wp_enqueue_scripts', 'bachpedia_enqueue_assets');
 
 // Soporte para características del tema
 function bachpedia_theme_setup() {
+    load_theme_textdomain('bachpedia', get_template_directory() . '/languages');
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
     add_theme_support('custom-logo');
+    add_theme_support('html5', ['search-form', 'comment-form', 'comment-list', 'gallery', 'caption']);
+    add_theme_support('automatic-feed-links');
+
 
     register_nav_menus([
         'primary' => __('Primary Menu', 'bachpedia'),

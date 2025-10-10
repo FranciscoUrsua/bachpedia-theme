@@ -32,7 +32,10 @@
                         <?php endif; ?>
                         <div class="card h-100 bg-light">
                             <div class="card-body d-flex flex-column">
-                                <?php if (get_the_terms(get_the_ID(), 'bwv')) : ?>
+                                <?php
+                                // Fix: Check para BWV (evita WP_Error si taxonomía no existe)
+                                $bwv_terms = get_the_terms(get_the_ID(), 'bwv');
+                                if ($bwv_terms && !is_wp_error($bwv_terms)) : ?>
                                     <div class="badge bg-copper mb-2">BWV: <?php echo get_the_term_list(get_the_ID(), 'bwv', '', ', ', ''); ?></div>
                                 <?php endif; ?>
                                 <h2 class="card-title fs-5 fw-bold mt-auto">
@@ -41,11 +44,15 @@
                                 <p class="card-text flex-grow-1"><?php the_excerpt(); ?></p>
                                 <div class="entry-meta small text-muted mt-auto">
                                     <?php
-                                    if (get_post_meta(get_the_ID(), '_bach_fecha', true)) {
-                                        echo '<span class="me-2">' . esc_html(get_post_meta(get_the_ID(), '_bach_fecha', true)) . '</span>';
+                                    // Fix: Meta fecha (get_post_meta ya es segura, pero check vacío)
+                                    $fecha = get_post_meta(get_the_ID(), '_bach_fecha', true);
+                                    if (!empty($fecha)) {
+                                        echo '<span class="me-2">' . esc_html($fecha) . '</span>';
                                     }
-                                    if (get_the_terms(get_the_ID(), 'tipo-obra')) {
-                                        echo get_the_term_list(get_the_ID(), 'tipo-obra', '', ', ', '');
+                                    // Fix: Check para tipo-obra (evita WP_Error si taxonomía no existe)
+                                    $tipo_terms = get_the_terms(get_the_ID(), 'tipo-obra');
+                                    if ($tipo_terms && !is_wp_error($tipo_terms)) {
+                                        echo 'Tipo: ' . get_the_term_list(get_the_ID(), 'tipo-obra', '', ', ', '');
                                     }
                                     ?>
                                     <span class="dot-divider">•</span>
